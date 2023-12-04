@@ -49,11 +49,11 @@ public class Day4 {
             int score = calculateCardScore(card, winningNumbers);
 
 
-            for (int k = 0; k < numCopies; k++) { // Number of copies we have of card
-                for (int j = 1; j <= score; j++) { // Number of copies we get from card
-                    copyCount.put(i+j,copyCount.getOrDefault(i+j, 1)+1);
-                }
+
+            for (int j = 1; j <= score; j++) { // Number of copies we get from card
+                copyCount.put(i+j,copyCount.getOrDefault(i+j, 1)+numCopies);
             }
+
 
 
             i++;
