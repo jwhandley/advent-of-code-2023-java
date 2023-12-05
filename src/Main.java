@@ -16,5 +16,8 @@ public class Main {
         System.out.println("Day 4 solutions");
         Day4.part1();
         Day4.part2();
+        System.out.println("Day 5 solutions");
+        Day5.part1();
+        Day5.part2();
     }
 }
