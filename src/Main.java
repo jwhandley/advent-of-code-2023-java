@@ -18,6 +18,10 @@ public class Main {
         Day4.part2();
         System.out.println("Day 5 solutions");
         Day5.part1();
-        Day5.part2();
+        // Day5.part2();
+        System.out.println("Day 6 solutions");
+        Day6.part1();
+        Day6.part2();
+
     }
 }

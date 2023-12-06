@@ -8,14 +8,14 @@ import java.util.List;
 public class Day3 {
     public static void part1() throws IOException {
         List<String> input = Files.readAllLines(Path.of("Inputs/Day3/input.txt"));
-        HashMap<Point, Character> grid = new HashMap<>();
+
+        char[][] charGrid = new char[input.size()][input.get(0).length()];
 
         for (int i = 0; i < input.size(); i++) {
             String line = input.get(i);
             for (int j = 0; j < line.length(); j++) {
                 char c = line.charAt(j);
-                Point pt = new Point(i, j);
-                grid.put(pt, c);
+                charGrid[i][j] = c;
             }
         }
 
@@ -24,28 +24,30 @@ public class Day3 {
         int result = 0;
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(0).length(); j++) {
-                Point pt = new Point(i, j);
-                Point[] adjacentPoints = {new Point(i + 1, j),        // Right
-                        new Point(i - 1, j),        // Left
-                        new Point(i - 1, j + 1), // Top left
-                        new Point(i + 1, j + 1), // Top right
-                        new Point(i, j + 1),        // Top
-                        new Point(i - 1, j - 1), // Bottom left
-                        new Point(i + 1, j - 1), // Bottom right
-                        new Point(i, j - 1), // Bottom
-                };
-
-
-                char value = grid.getOrDefault(pt, '.');
+                char value = charGrid[i][j];
                 if (Character.isDigit(value)) {
                     numberBuffer.append(value);
-                    for (Point p : adjacentPoints) {
-                        char adjacentValue = grid.getOrDefault(p, '.');
 
-                        if (!Character.isDigit(adjacentValue) && adjacentValue != '.') {
-                            nearSpecial = true;
+                    int[] offset = new int[] {-1, 1};
+                    for (int k : offset) {
+                        for (int l : offset) {
+                            if (i + k < 0 || i + k >= charGrid.length) {
+                                continue;
+                            }
+
+                            if (j + l < 0 || j + l >= charGrid[0].length) {
+                                continue;
+                            }
+
+                            char adjacentValue = charGrid[i+k][j+l];
+
+                            if (!Character.isDigit(adjacentValue) && adjacentValue != '.') {
+                                nearSpecial = true;
+                            }
                         }
                     }
+
+
                 } else if (!Character.isDigit(value) && !numberBuffer.isEmpty()) {
                     int num = Integer.parseInt(numberBuffer.toString());
 
@@ -64,44 +66,51 @@ public class Day3 {
 
     }
 
-    public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day3/input.txt"));
-        HashMap<Point, Character> grid = new HashMap<>();
-
+    static char[][] buildGrid(Path inputPath) throws IOException {
+        List<String> input = Files.readAllLines(inputPath);
+        char[][] grid = new char[input.size()][input.get(0).length()];
         for (int i = 0; i < input.size(); i++) {
             String line = input.get(i);
             for (int j = 0; j < line.length(); j++) {
-                char c = line.charAt(j);
-                Point pt = new Point(i, j);
-                grid.put(pt, c);
+                grid[i][j] = line.charAt(j);
             }
         }
+
+        return grid;
+    }
+
+    public static void part2() throws IOException {
+        var grid = buildGrid(Path.of("Inputs/Day3/input.txt"));
+
 
         StringBuilder numberBuffer = new StringBuilder();
 
         HashMap<Point, List<Integer>> specialCount = new HashMap<>();
         HashSet<Point> nearbyPoints = new HashSet<>();
 
-        for (int i = 0; i < input.size(); i++) {
-            for (int j = 0; j < input.get(0).length(); j++) {
-                Point pt = new Point(i, j);
-                Point[] adjacentPoints = {new Point(i + 1, j),        // Right
-                        new Point(i - 1, j),        // Left
-                        new Point(i - 1, j + 1), // Top left
-                        new Point(i + 1, j + 1), // Top right
-                        new Point(i, j + 1),        // Top
-                        new Point(i - 1, j - 1), // Bottom left
-                        new Point(i + 1, j - 1), // Bottom right
-                        new Point(i, j - 1),        // Bottom
-                };
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                int[] offsets = new int[] {-1, 1};
 
-
-                char value = grid.getOrDefault(pt, '.');
+                char value = grid[i][j];
                 if (Character.isDigit(value)) {
                     numberBuffer.append(value);
-                    Arrays.stream(adjacentPoints)
-                            .filter(p -> grid.getOrDefault(p, '.') == '*')
-                            .forEach(nearbyPoints::add);
+
+                    for (int k : offsets) {
+                        for (int l : offsets) {
+                            if (i + k < 0 || i + k >= grid.length) {
+                                continue;
+                            }
+
+                            if (j + l < 0 || j + l >= grid[0].length) {
+                                continue;
+                            }
+
+                            if (grid[i+k][j+l] == '*') {
+                                nearbyPoints.add(new Point(i+k, j+l));
+                            }
+                        }
+                    }
                 }
 
 

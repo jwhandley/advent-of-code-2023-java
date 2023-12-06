@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Day5 {
     public static void part1() throws IOException {
@@ -17,14 +19,14 @@ public class Day5 {
         // Parse maps
         List<long[][]> maps = Arrays.stream(input.split("\n\n")).skip(1).map(Day5::parseMap).toList();
 
-
-        for (long[][] map : maps) {
-            seeds = seeds.stream().map(i -> convertSeed(i, map)).toList();
+        long minValue = Long.MAX_VALUE;
+        for (long seed : seeds) {
+            minValue = Math.min(minValue, feedForward(seed, maps));
         }
-        System.out.println(STR. "Result for part 1: \{ Collections.min(seeds) }" );
+        System.out.println(STR. "Result for part 1: \{ minValue }" );
     }
 
-    static long convertSeed(long input, long[][] map) {
+    private static long convertSeed(long input, long[][] map) {
         for (long[] line : map) {
             if (input >= line[1] && input <= line[1] + line[2]) {
                 return input + line[0] - line[1];
@@ -34,7 +36,7 @@ public class Day5 {
         return input;
     }
 
-    static long[][] parseMap(String map) {
+    private static long[][] parseMap(String map) {
         String[] mapData = map.split("\n");
         int n = mapData.length;
         long[][] result = new long[n - 1][3];
@@ -49,14 +51,13 @@ public class Day5 {
         return result;
     }
 
-    static long feedForward(long input, List<long[][]> maps) {
+    private static long feedForward(long input, List<long[][]> maps) {
         for (long[][] map : maps) {
             input = convertSeed(input, map);
         }
 
         return input;
     }
-
     public static void part2() throws IOException {
         String input = Files.readString(Path.of("Inputs/Day5/input.txt"));
 
@@ -81,7 +82,7 @@ public class Day5 {
             }
             System.out.println(STR. "Took \{ System.currentTimeMillis() - start }ms to finish" );
         }
-        System.out.println(STR."Took \{ System.currentTimeMillis() - startTime }ms to find the minimum value");
+        System.out.println(STR. "Took \{ System.currentTimeMillis() - startTime }ms to find the minimum value" );
 
 
         System.out.println(STR. "Result for part 2: \{ minValue }" );
