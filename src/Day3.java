@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,9 +27,13 @@ public class Day3 {
                 if (Character.isDigit(value)) {
                     numberBuffer.append(value);
 
-                    int[] offset = new int[] {-1, 1};
+                    int[] offset = new int[] {-1, 0, 1};
                     for (int k : offset) {
                         for (int l : offset) {
+                            if (k == 0 && l == 0) {
+                                continue;
+                            }
+
                             if (i + k < 0 || i + k >= charGrid.length) {
                                 continue;
                             }
@@ -85,12 +88,12 @@ public class Day3 {
 
         StringBuilder numberBuffer = new StringBuilder();
 
-        HashMap<Point, List<Integer>> specialCount = new HashMap<>();
-        HashSet<Point> nearbyPoints = new HashSet<>();
+        HashSet<Integer> nearbyIndices = new HashSet<>();
+        HashMap<Integer, List<Integer>> indexCount = new HashMap<>();
 
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                int[] offsets = new int[] {-1, 1};
+                int[] offsets = new int[] {-1, 0, 1};
 
                 char value = grid[i][j];
                 if (Character.isDigit(value)) {
@@ -98,16 +101,20 @@ public class Day3 {
 
                     for (int k : offsets) {
                         for (int l : offsets) {
+                            if (k == 0 && l == 0) {
+                                continue;
+                            }
+
                             if (i + k < 0 || i + k >= grid.length) {
                                 continue;
                             }
 
-                            if (j + l < 0 || j + l >= grid[0].length) {
+                            if (j + l < 0 || j + l >= grid.length) {
                                 continue;
                             }
 
                             if (grid[i+k][j+l] == '*') {
-                                nearbyPoints.add(new Point(i+k, j+l));
+                                nearbyIndices.add(i+k + grid.length * (j + l));
                             }
                         }
                     }
@@ -117,15 +124,16 @@ public class Day3 {
                 if (!Character.isDigit(value) && !numberBuffer.isEmpty()) {
                     int num = Integer.parseInt(numberBuffer.toString());
 
-                    nearbyPoints.forEach(p -> specialCount.computeIfAbsent(p, _ -> new ArrayList<>()).add(num));
+                    nearbyIndices.forEach(p -> indexCount.computeIfAbsent(p, _ -> new ArrayList<>()).add(num));
 
                     numberBuffer = new StringBuilder();
-                    nearbyPoints.clear();
+                    nearbyIndices.clear();
                 }
             }
         }
 
-        int result = specialCount.values().stream().filter(count -> count.size() == 2).mapToInt(count -> count.get(0) * count.get(1)).sum();
+
+        int result = indexCount.values().stream().filter(count -> count.size() == 2).mapToInt(count -> count.get(0) * count.get(1)).sum();
 
         System.out.println(STR. "Result for part 2: \{ result }" );
     }
