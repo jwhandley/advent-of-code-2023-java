@@ -21,7 +21,7 @@ public class Day1 {
             result += firstNumber * 10 + lastNumber;
         }
 
-        System.out.println(STR. "Part 1 result: \{result}" );
+        System.out.println(STR. "Result for part 1: \{result}" );
     }
 
     public static void part2() throws IOException {
@@ -55,6 +55,6 @@ public class Day1 {
             result += firstNumber * 10 + lastNumber;
         }
 
-        System.out.println(STR. "Part 2 result: \{result}" );
+        System.out.println(STR. "Result for part 2: \{result}" );
     }
 }

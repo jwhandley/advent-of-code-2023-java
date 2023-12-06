@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 
 public class Day6 {
@@ -9,9 +8,6 @@ public class Day6 {
         List<String> input = Files.readAllLines(Path.of("Inputs/Day6/input.txt"));
         int[] times = parseValuesPart1(input.get(0));
         int[] distances = parseValuesPart1(input.get(1));
-
-        System.out.println("Times: " + Arrays.toString(times));
-        System.out.println("Distances: " + Arrays.toString(distances));
 
         int result = 1;
         for (int i = 0; i < times.length; i++) {

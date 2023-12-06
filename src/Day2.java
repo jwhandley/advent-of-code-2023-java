@@ -33,7 +33,7 @@ public class Day2 {
                 result += i + 1;
             }
         }
-        System.out.println(STR. "Part 1 Result: \{ result }" );
+        System.out.println(STR. "Result for part 1: \{ result }" );
     }
 
     public static void part2() throws IOException {
@@ -58,7 +58,7 @@ public class Day2 {
 
             result += gameMaxCount.get("red") * gameMaxCount.get("green") * gameMaxCount.get("blue");
         }
-        System.out.println(STR. "Part 2 Result: \{ result }" );
+        System.out.println(STR. "Result for part 2: \{ result }" );
 
     }
 }
