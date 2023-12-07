@@ -70,8 +70,8 @@ class Draw implements Comparable<Draw> {
         return switch (maxVal) {
             case 5 -> DrawType.FiveOfAKind;
             case 4 -> DrawType.FourOfAKind;
-            case 3 -> values.getFirst() == 1? DrawType.ThreeOfAKind : DrawType.FullHouse;
-            case 2 -> values.get(1) == 2? DrawType.TwoPair : DrawType.OnePair;
+            case 3 -> values.getFirst() == 1 ? DrawType.ThreeOfAKind : DrawType.FullHouse;
+            case 2 -> values.get(1) == 2 ? DrawType.TwoPair : DrawType.OnePair;
             default -> DrawType.HighCard;
         };
     }
@@ -107,7 +107,6 @@ class Draw implements Comparable<Draw> {
         return typeComparison;
     }
 }
-
 
 public class Day7 {
     public static void part1() throws IOException {
