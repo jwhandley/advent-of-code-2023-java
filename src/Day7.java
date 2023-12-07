@@ -7,107 +7,6 @@ import java.util.*;
 
 import static java.util.Map.entry;
 
-enum DrawType {
-    FiveOfAKind(7), FourOfAKind(6), FullHouse(5), ThreeOfAKind(4), TwoPair(3), OnePair(2), HighCard(1);
-    final int value;
-
-    DrawType(int i) {
-        this.value = i;
-    }
-}
-
-class Card {
-    Map<Character, Integer> cardMap;
-
-    int value;
-
-    Card(char input, Map<Character, Integer> cardMap) {
-        this.cardMap = cardMap;
-        this.value = cardMap.get(input);
-    }
-
-}
-
-class Draw implements Comparable<Draw> {
-    DrawType type;
-    Card[] draw;
-    String input;
-
-    Draw(String input, Map<Character, Integer> cardMap, boolean wildCard) {
-        Card[] draw = new Card[5];
-        for (int i = 0; i < 5; i++) {
-            draw[i] = new Card(input.charAt(i), cardMap);
-        }
-
-        this.draw = draw;
-        this.type = parseDraw(input, wildCard);
-        this.input = input;
-    }
-
-    public static DrawType parseDraw(String input, boolean wildCard) {
-        HashMap<Character, Integer> cardMap = new HashMap<>();
-        int jokerCount = 0;
-        if (wildCard) {
-            for (Character c : input.toCharArray()) {
-                if (c == 'J') {
-                    jokerCount++;
-                    continue;
-                }
-                cardMap.merge(c, 1, Integer::sum);
-            }
-        } else {
-            for (Character c : input.toCharArray()) {
-                cardMap.merge(c, 1, Integer::sum);
-            }
-        }
-
-
-        List<Integer> values = new ArrayList<>(cardMap.values());
-        Collections.sort(values);
-
-        int maxVal = values.isEmpty() ? jokerCount : values.getLast() + jokerCount;
-
-        return switch (maxVal) {
-            case 5 -> DrawType.FiveOfAKind;
-            case 4 -> DrawType.FourOfAKind;
-            case 3 -> values.getFirst() == 1 ? DrawType.ThreeOfAKind : DrawType.FullHouse;
-            case 2 -> values.get(1) == 2 ? DrawType.TwoPair : DrawType.OnePair;
-            default -> DrawType.HighCard;
-        };
-    }
-
-    @Override
-    public String toString() {
-        return this.input;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Draw that)) return false;
-
-        if (this.type != that.type) {
-            return false;
-        }
-
-        return this.compareTo(that) == 0;
-    }
-
-    @Override
-    public int compareTo(@NotNull Draw that) {
-        int typeComparison = Integer.compare(this.type.value, that.type.value);
-
-        if (typeComparison == 0) {
-            for (int i = 0; i < 5; i++) {
-                if (this.draw[i].value == that.draw[i].value) continue;
-                return Integer.compare(this.draw[i].value, that.draw[i].value);
-            }
-        }
-
-        return typeComparison;
-    }
-}
-
 public class Day7 {
     public static void part1() throws IOException {
         List<String> input = Files.readAllLines(Path.of("Inputs/Day7/input.txt"));
@@ -150,6 +49,107 @@ public class Day7 {
         }
 
         System.out.println(STR."Result for part 2: \{result}");
+
+    }
+
+    enum DrawType {
+        FiveOfAKind(7), FourOfAKind(6), FullHouse(5), ThreeOfAKind(4), TwoPair(3), OnePair(2), HighCard(1);
+        final int value;
+
+        DrawType(int i) {
+            this.value = i;
+        }
+    }
+
+    static class Draw implements Comparable<Draw> {
+        DrawType type;
+        Card[] draw;
+        String input;
+
+        Draw(String input, Map<Character, Integer> cardMap, boolean wildCard) {
+            Card[] draw = new Card[5];
+            for (int i = 0; i < 5; i++) {
+                draw[i] = new Card(input.charAt(i), cardMap);
+            }
+
+            this.draw = draw;
+            this.type = parseDraw(input, wildCard);
+            this.input = input;
+        }
+
+        public static DrawType parseDraw(String input, boolean wildCard) {
+            HashMap<Character, Integer> cardMap = new HashMap<>();
+            int jokerCount = 0;
+            if (wildCard) {
+                for (Character c : input.toCharArray()) {
+                    if (c == 'J') {
+                        jokerCount++;
+                        continue;
+                    }
+                    cardMap.merge(c, 1, Integer::sum);
+                }
+            } else {
+                for (Character c : input.toCharArray()) {
+                    cardMap.merge(c, 1, Integer::sum);
+                }
+            }
+
+
+            List<Integer> values = new ArrayList<>(cardMap.values());
+            Collections.sort(values);
+
+            int maxVal = values.isEmpty() ? jokerCount : values.getLast() + jokerCount;
+
+            return switch (maxVal) {
+                case 5 -> DrawType.FiveOfAKind;
+                case 4 -> DrawType.FourOfAKind;
+                case 3 -> values.getFirst() == 1 ? DrawType.ThreeOfAKind : DrawType.FullHouse;
+                case 2 -> values.get(1) == 2 ? DrawType.TwoPair : DrawType.OnePair;
+                default -> DrawType.HighCard;
+            };
+        }
+
+        @Override
+        public String toString() {
+            return this.input;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof Draw that)) return false;
+
+            if (this.type != that.type) {
+                return false;
+            }
+
+            return this.compareTo(that) == 0;
+        }
+
+        @Override
+        public int compareTo(@NotNull Draw that) {
+            int typeComparison = Integer.compare(this.type.value, that.type.value);
+
+            if (typeComparison == 0) {
+                for (int i = 0; i < 5; i++) {
+                    if (this.draw[i].value == that.draw[i].value) continue;
+                    return Integer.compare(this.draw[i].value, that.draw[i].value);
+                }
+            }
+
+            return typeComparison;
+        }
+    }
+
+    static class Card {
+        Map<Character, Integer> cardMap;
+
+        int value;
+
+        Card(char input, Map<Character, Integer> cardMap) {
+            this.cardMap = cardMap;
+            this.value = cardMap.get(input);
+        }
 
     }
 }
