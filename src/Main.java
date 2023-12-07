@@ -4,6 +4,7 @@ import java.io.IOException;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws IOException {
+        var startTime = System.currentTimeMillis();
         System.out.println("Day 1 solutions");
         Day1.part1();
         Day1.part2();
@@ -22,6 +23,9 @@ public class Main {
         System.out.println("Day 6 solutions");
         Day6.part1();
         Day6.part2();
-
+        System.out.println("Day 7 solutions");
+        Day7.part1();
+        Day7.part2();
+        System.out.println(STR. "Finished in \{ System.currentTimeMillis() - startTime }ms" );
     }
 }
