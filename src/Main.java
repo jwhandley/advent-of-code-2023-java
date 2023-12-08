@@ -26,6 +26,9 @@ public class Main {
         System.out.println("Day 7 solutions");
         Day7.part1();
         Day7.part2();
+        System.out.println("Day 8 solutions");
+        Day8.part1();
+        Day8.part2();
         System.out.println(STR. "Finished in \{ System.currentTimeMillis() - startTime }ms" );
     }
 }
