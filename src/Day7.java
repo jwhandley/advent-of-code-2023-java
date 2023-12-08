@@ -10,13 +10,13 @@ import static java.util.Map.entry;
 public class Day7 {
     public static void part1() throws IOException {
         List<String> input = Files.readAllLines(Path.of("Inputs/Day7/input.txt"));
-        TreeMap<Draw, Integer> drawMap = new TreeMap<>();
+        TreeMap<Hand, Integer> drawMap = new TreeMap<>();
         Map<Character, Integer> cardMap = Map.ofEntries(entry('2', 2), entry('3', 3), entry('4', 4), entry('5', 5), entry('6', 6), entry('7', 7), entry('8', 8), entry('9', 9), entry('T', 10), entry('J', 11), entry('Q', 12), entry('K', 13), entry('A', 14));
 
-        for (String drawAndBid : input) {
-            String draw = drawAndBid.split(" ")[0];
-            int bid = Integer.parseInt(drawAndBid.split(" ")[1]);
-            drawMap.put(new Draw(draw, cardMap, false), bid);
+        for (String data : input) {
+            String hand = data.split(" ")[0];
+            int bid = Integer.parseInt(data.split(" ")[1]);
+            drawMap.put(new Hand(hand, cardMap, false), bid);
         }
 
         int result = 0;
@@ -32,13 +32,13 @@ public class Day7 {
 
     public static void part2() throws IOException {
         List<String> input = Files.readAllLines(Path.of("Inputs/Day7/input.txt"));
-        TreeMap<Draw, Integer> drawMap = new TreeMap<>();
+        TreeMap<Hand, Integer> drawMap = new TreeMap<>();
         Map<Character, Integer> cardMap = Map.ofEntries(entry('J', 1), entry('2', 2), entry('3', 3), entry('4', 4), entry('5', 5), entry('6', 6), entry('7', 7), entry('8', 8), entry('9', 9), entry('T', 10), entry('Q', 11), entry('K', 12), entry('A', 13));
 
-        for (String drawAndBid : input) {
-            String draw = drawAndBid.split(" ")[0];
-            int bid = Integer.parseInt(drawAndBid.split(" ")[1]);
-            drawMap.put(new Draw(draw, cardMap, true), bid);
+        for (String data : input) {
+            String hand = data.split(" ")[0];
+            int bid = Integer.parseInt(data.split(" ")[1]);
+            drawMap.put(new Hand(hand, cardMap, true), bid);
         }
 
         int result = 0;
@@ -52,32 +52,30 @@ public class Day7 {
 
     }
 
-    enum DrawType {
-        FiveOfAKind(7), FourOfAKind(6), FullHouse(5), ThreeOfAKind(4), TwoPair(3), OnePair(2), HighCard(1);
-        final int value;
+    enum HandType {
+        FiveOfAKind(), FourOfAKind(), FullHouse(), ThreeOfAKind(), TwoPair(), OnePair(), HighCard();
 
-        DrawType(int i) {
-            this.value = i;
+        HandType() {
         }
     }
 
-    static class Draw implements Comparable<Draw> {
-        DrawType type;
-        Card[] draw;
+    static class Hand implements Comparable<Hand> {
+        HandType type;
+        int[] draw;
         String input;
 
-        Draw(String input, Map<Character, Integer> cardMap, boolean wildCard) {
-            Card[] draw = new Card[5];
+        Hand(String input, Map<Character, Integer> cardMap, boolean wildCard) {
+            int[] draw = new int[5];
             for (int i = 0; i < 5; i++) {
-                draw[i] = new Card(input.charAt(i), cardMap);
+                draw[i] = cardMap.get(input.charAt(i));
             }
 
             this.draw = draw;
-            this.type = parseDraw(input, wildCard);
+            this.type = parseHand(input, wildCard);
             this.input = input;
         }
 
-        public static DrawType parseDraw(String input, boolean wildCard) {
+        public static HandType parseHand(String input, boolean wildCard) {
             HashMap<Character, Integer> cardMap = new HashMap<>();
             int jokerCount = 0;
             if (wildCard) {
@@ -101,11 +99,11 @@ public class Day7 {
             int maxVal = values.isEmpty() ? jokerCount : values.getLast() + jokerCount;
 
             return switch (maxVal) {
-                case 5 -> DrawType.FiveOfAKind;
-                case 4 -> DrawType.FourOfAKind;
-                case 3 -> values.getFirst() == 1 ? DrawType.ThreeOfAKind : DrawType.FullHouse;
-                case 2 -> values.get(1) == 2 ? DrawType.TwoPair : DrawType.OnePair;
-                default -> DrawType.HighCard;
+                case 5 -> HandType.FiveOfAKind;
+                case 4 -> HandType.FourOfAKind;
+                case 3 -> values.getFirst() == 1 ? HandType.ThreeOfAKind : HandType.FullHouse;
+                case 2 -> values.get(1) == 2 ? HandType.TwoPair : HandType.OnePair;
+                default -> HandType.HighCard;
             };
         }
 
@@ -117,7 +115,7 @@ public class Day7 {
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
-            if (!(obj instanceof Draw that)) return false;
+            if (!(obj instanceof Hand that)) return false;
 
             if (this.type != that.type) {
                 return false;
@@ -127,30 +125,18 @@ public class Day7 {
         }
 
         @Override
-        public int compareTo(@NotNull Draw that) {
-            int typeComparison = Integer.compare(this.type.value, that.type.value);
+        public int compareTo(@NotNull Hand that) {
+            int typeComparison = Integer.compare(that.type.ordinal(), this.type.ordinal());
 
             if (typeComparison == 0) {
                 for (int i = 0; i < 5; i++) {
-                    if (this.draw[i].value == that.draw[i].value) continue;
-                    return Integer.compare(this.draw[i].value, that.draw[i].value);
+                    if (this.draw[i] == that.draw[i]) continue;
+                    return Integer.compare(this.draw[i], that.draw[i]);
                 }
             }
 
             return typeComparison;
         }
-    }
-
-    static class Card {
-        Map<Character, Integer> cardMap;
-
-        int value;
-
-        Card(char input, Map<Character, Integer> cardMap) {
-            this.cardMap = cardMap;
-            this.value = cardMap.get(input);
-        }
-
     }
 }
 
