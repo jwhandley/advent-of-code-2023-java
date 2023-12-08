@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="advent-of-code-2023-java:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/advent_of_code_2023_java_jar</output-path>
+    <root id="archive" name="advent-of-code-2023-java.jar">
+      <element id="module-output" name="advent-of-code-2023-java" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.0/annotations-24.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
