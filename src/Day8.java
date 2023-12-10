@@ -103,7 +103,7 @@ public class Day8 {
     }
 
     static class Graph {
-        HashMap<String, Node> nodes;
+        final HashMap<String, Node> nodes;
 
         public Graph() {
             this.nodes = new HashMap<>();

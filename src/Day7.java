@@ -60,9 +60,9 @@ public class Day7 {
     }
 
     static class Hand implements Comparable<Hand> {
-        HandType type;
-        int[] draw;
-        String input;
+        final HandType type;
+        final int[] draw;
+        final String input;
 
         Hand(String input, Map<Character, Integer> cardMap, boolean wildCard) {
             int[] draw = new int[5];
