@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,19 +6,23 @@ import java.util.*;
 
 public class Day10 {
     static List<String> lines;
+    static int gridSize;
+    static List<Point> visited;
+    static Point startLocation;
 
     public static void part1() throws IOException {
         lines = Files.readAllLines(Path.of("Inputs/Day10/input.txt"));
-        Point startLocation = findStart();
-        List<Point> visited = new ArrayList<>();
+        gridSize = lines.size();
+        startLocation = findStart();
+        visited = new ArrayList<>();
         bfs(startLocation, visited);
         System.out.println(STR."Result for part 1: \{visited.size() / 2}");
     }
 
     private static Point findStart() throws Error {
-        for (int i = 0; i < lines.size(); i++) {
+        for (int i = 0; i < gridSize; i++) {
             String line = lines.get(i);
-            for (int j = 0; j < line.length(); j++) {
+            for (int j = 0; j < gridSize; j++) {
                 if (line.charAt(j) == 'S') return new Point(j, i);
             }
         }
@@ -29,11 +32,6 @@ public class Day10 {
     }
 
     public static void part2() throws IOException {
-        lines = Files.readAllLines(Path.of("Inputs/Day10/input.txt"));
-        Point startLocation = findStart();
-        List<Point> visited = new ArrayList<>();
-        bfs(startLocation, visited);
-
         int insidePoints = 0;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
@@ -92,7 +90,7 @@ public class Day10 {
             Point p = stack.pop();
 
             if (!visited.contains(p)) {
-                if (p.y < 0 || p.y > lines.size() || p.x < 0 || p.x > lines.getFirst().length()) continue;
+                if (p.y < 0 || p.y > gridSize || p.x < 0 || p.x > gridSize) continue;
                 visited.add(p);
                 switch (lines.get(p.y).charAt(p.x)) {
                     case '|' -> {
@@ -130,6 +128,29 @@ public class Day10 {
                 }
             }
         }
-
     }
+
+    static class Point {
+        int x;
+        int y;
+
+        Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Point point = (Point) obj;
+            return x == point.x && y == point.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return y + x * gridSize;
+        }
+    }
+
 }
