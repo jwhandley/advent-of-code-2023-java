@@ -31,7 +31,7 @@ public class Day10 {
         throw new Error("Failed to find start position");
     }
 
-    public static void part2() throws IOException {
+    public static void part2() {
         int insidePoints = 0;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
@@ -83,8 +83,15 @@ public class Day10 {
     }
 
     private static void bfs(Point origin, List<Point> visited) {
+        var goesDown = Set.of('7','F','|','S');
+        var goesUp = Set.of('J','L','|','S');
+        var goesLeft = Set.of('7','J','-','S');
+        var goesRight = Set.of('L','F','-','S');
+
+
         Stack<Point> stack = new Stack<>();
         stack.push(origin);
+
 
         while (!stack.isEmpty()) {
             Point p = stack.pop();
@@ -92,39 +99,24 @@ public class Day10 {
             if (!visited.contains(p)) {
                 if (p.y < 0 || p.y > gridSize || p.x < 0 || p.x > gridSize) continue;
                 visited.add(p);
-                switch (lines.get(p.y).charAt(p.x)) {
-                    case '|' -> {
-                        stack.add(new Point(p.x, p.y + 1)); // South
-                        stack.add(new Point(p.x, p.y - 1)); // North
-                    }
-                    case '-' -> {
-                        stack.add(new Point(p.x + 1, p.y)); // East
-                        stack.add(new Point(p.x - 1, p.y)); // West
-                    }
-                    case 'L' -> {
-                        stack.add(new Point(p.x, p.y - 1)); // North
-                        stack.add(new Point(p.x + 1, p.y)); // East
-                    }
-                    case 'J' -> {
-                        stack.add(new Point(p.x, p.y - 1)); // North
-                        stack.add(new Point(p.x - 1, p.y)); // West
-                    }
-                    case '7' -> {
-                        stack.add(new Point(p.x, p.y + 1)); // South
-                        stack.add(new Point(p.x - 1, p.y)); // West
-                    }
-                    case 'F' -> {
-                        stack.add(new Point(p.x, p.y + 1)); // South
-                        stack.add(new Point(p.x + 1, p.y)); // East
-                    }
-                    case '.' -> visited.remove(p);
-                    case 'S' -> {
-                        stack.add(new Point(p.x, p.y + 1)); // South
-                        stack.add(new Point(p.x, p.y - 1)); // North
-                        stack.add(new Point(p.x + 1, p.y)); // East
-                        stack.add(new Point(p.x - 1, p.y)); // West
-                    }
-                    default -> throw new IllegalStateException(STR."Unexpected value: \{lines.get(p.y).charAt(p.x)}");
+                char charAtPos = lines.get(p.y).charAt(p.x);
+
+                if (charAtPos == '.') {
+                    visited.remove(p);
+                }
+
+                // Process directions
+                if (goesDown.contains(charAtPos)) {
+                    stack.add(new Point(p.x, p.y + 1)); // South
+                }
+                if (goesUp.contains(charAtPos)) {
+                    stack.add(new Point(p.x, p.y - 1)); // North
+                }
+                if (goesLeft.contains(charAtPos)) {
+                    stack.add(new Point(p.x - 1, p.y)); // West
+                }
+                if (goesRight.contains(charAtPos)) {
+                    stack.add(new Point(p.x + 1, p.y)); // East
                 }
             }
         }
