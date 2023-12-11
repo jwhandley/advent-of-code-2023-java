@@ -149,7 +149,7 @@ public class Day10 {
 
         @Override
         public int hashCode() {
-            return y + x * gridSize;
+            return y + x * gridSize; // Cheaper hashing since we know the unique points
         }
     }
 
