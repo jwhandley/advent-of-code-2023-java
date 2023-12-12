@@ -29,13 +29,22 @@ public class Day12 {
         long total = 0;
         for (String input : lines) {
             String fold = input.split(" ")[0];
-            String sequence = STR."\{fold}?\{fold}?\{fold}?\{fold}?\{fold}";
+            String sequence = repeatStringWithDelimiter(fold,"?", 5);
             String springs = input.split(" ")[1];
-            List<Integer> numbers = Arrays.stream(STR."\{springs},\{springs},\{springs},\{springs},\{springs}".split(",")).map(Integer::parseInt).toList();
+            List<Integer> numbers = Arrays.stream(repeatStringWithDelimiter(springs, ",", 5).split(",")).map(Integer::parseInt).toList();
 
             total += permutations(sequence, new ArrayList<>(numbers));
         }
         System.out.println(STR."Result for part 2: \{total}");
+    }
+
+    public static String repeatStringWithDelimiter(String str, String delimiter, int count) {
+        if (count <= 0) {
+            return "";
+        }
+        String[] array = new String[count];
+        Arrays.fill(array, str);
+        return String.join(delimiter, array);
     }
 
     public static long permutations(String input, List<Integer> nums) {
