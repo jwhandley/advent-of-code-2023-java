@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day1 {
+    static List<String> input;
     public static void part1() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day1/input.txt"));
+        input = Files.readAllLines(Path.of("Inputs/Day1/input.txt"));
         int result = 0;
         for (String line : input) {
             List<Integer> lineNumbers = new ArrayList<>();
@@ -25,9 +26,7 @@ public class Day1 {
     }
 
     public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day1/input.txt"));
         int result = 0;
-
         for (String line : input) {
             List<Integer> lineNumbers = new ArrayList<>();
             for (int i = 0; i < line.length(); i++) {

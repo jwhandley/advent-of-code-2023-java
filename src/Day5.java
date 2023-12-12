@@ -7,8 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Day5 {
+    static String input;
+    static List<long[][]> maps;
     public static void part1() throws IOException {
-        String input = Files.readString(Path.of("Inputs/Day5/input.txt"));
+        input = Files.readString(Path.of("Inputs/Day5/input.txt"));
 
         // Parse seeds
         String seedData = input.split("\n")[0].split(": ")[1];
@@ -18,7 +20,7 @@ public class Day5 {
         }
 
         // Parse maps
-        List<long[][]> maps = Arrays.stream(input.split("\n\n")).skip(1).map(Day5::parseMap).toList();
+        maps = Arrays.stream(input.split("\n\n")).skip(1).map(Day5::parseMap).toList();
 
         long minValue = Long.MAX_VALUE;
         for (long seed : seeds) {
@@ -113,8 +115,6 @@ public class Day5 {
 
 
     public static void part2() throws IOException {
-        String input = Files.readString(Path.of("Inputs/Day5/input.txt"));
-
         // Gather seeds
         String[] seedData = input.split("\n")[0].split(": ")[1].split("\\s+");
         LinkedList<long[]> seedRanges = new LinkedList<>();
@@ -123,10 +123,6 @@ public class Day5 {
             long high = low + Long.parseLong(seedData[i + 1]);
             seedRanges.add(new long[]{low, high});
         }
-
-        // Parse maps
-        List<long[][]> maps = Arrays.stream(input.split("\n\n")).skip(1)
-                .map(Day5::parseMap).toList();
 
         var result = getRanges(seedRanges, maps);
 

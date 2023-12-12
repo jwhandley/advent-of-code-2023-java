@@ -4,8 +4,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class Day6 {
+    static List<String> input;
     public static void part1() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day6/input.txt"));
+        input = Files.readAllLines(Path.of("Inputs/Day6/input.txt"));
         int[] times = parseValuesPart1(input.get(0));
         int[] distances = parseValuesPart1(input.get(1));
 
@@ -46,7 +47,6 @@ public class Day6 {
     }
 
     public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day6/input.txt"));
         long time = parseValuePart2(input.get(0));
         long distance = parseValuePart2(input.get(1));
 

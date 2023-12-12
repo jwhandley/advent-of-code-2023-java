@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Day2 {
+    static List<String> input;
     public static void part1() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day2/input.txt"));
+        input = Files.readAllLines(Path.of("Inputs/Day2/input.txt"));
         Map<String, Integer> bagContents = Map.of("red", 12, "green", 13, "blue", 14);
         int result = 0;
         for (int i = 0; i < input.size(); i++) {
@@ -39,8 +40,6 @@ public class Day2 {
     }
 
     public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day2/input.txt"));
-
         int result = 0;
         for (String line : input) {
             String game = line.split(": ")[1];

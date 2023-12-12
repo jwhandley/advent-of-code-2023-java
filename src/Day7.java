@@ -8,8 +8,9 @@ import java.util.*;
 import static java.util.Map.entry;
 
 public class Day7 {
+    static List<String> input;
     public static void part1() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day7/input.txt"));
+        input = Files.readAllLines(Path.of("Inputs/Day7/input.txt"));
         TreeMap<Hand, Integer> drawMap = new TreeMap<>();
         Map<Character, Integer> cardMap = Map.ofEntries(entry('2', 2), entry('3', 3), entry('4', 4), entry('5', 5), entry('6', 6), entry('7', 7), entry('8', 8), entry('9', 9), entry('T', 10), entry('J', 11), entry('Q', 12), entry('K', 13), entry('A', 14));
 
@@ -31,7 +32,6 @@ public class Day7 {
     }
 
     public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day7/input.txt"));
         TreeMap<Hand, Integer> drawMap = new TreeMap<>();
         Map<Character, Integer> cardMap = Map.ofEntries(entry('J', 1), entry('2', 2), entry('3', 3), entry('4', 4), entry('5', 5), entry('6', 6), entry('7', 7), entry('8', 8), entry('9', 9), entry('T', 10), entry('Q', 11), entry('K', 12), entry('A', 13));
 

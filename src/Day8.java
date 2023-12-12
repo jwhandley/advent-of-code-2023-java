@@ -5,11 +5,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Day8 {
+    static List<String> input;
+    static Graph graph;
     public static void part1() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day8/input.txt"));
+        input = Files.readAllLines(Path.of("Inputs/Day8/input.txt"));
         String directions = input.getFirst();
         int directionSize = directions.length();
-        Graph graph = new Graph();
+        graph = new Graph();
         for (int i = 2; i < input.size(); i++) {
             String line = input.get(i);
             String node = line.split(" = ")[0];
@@ -18,8 +20,6 @@ public class Day8 {
             String[] edge = line.split(" = ")[1].replaceAll("[()]", "").split(", ");
 
             graph.addEdge(node, edge[0], edge[1]);
-
-
         }
 
         String currentNode = "AAA";
@@ -41,20 +41,8 @@ public class Day8 {
     }
 
     public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day8/input.txt"));
         String directions = input.getFirst();
         int directionSize = directions.length();
-        Graph graph = new Graph();
-        for (int i = 2; i < input.size(); i++) {
-            String line = input.get(i);
-            String node = line.split(" = ")[0];
-
-            graph.addNode(node);
-            String[] edge = line.split(" = ")[1].replaceAll("[()]", "").split(", ");
-
-            // Left edge
-            graph.addEdge(node, edge[0], edge[1]);
-        }
 
         Set<String> startNodes = graph.nodes.keySet().stream().filter(k -> k.endsWith("A")).collect(Collectors.toSet());
 
@@ -75,7 +63,6 @@ public class Day8 {
 
                 i++;
             }
-            // System.out.println(STR."Iterations for node \{ startNode }: \{ i }");
             times.add(i);
         }
         long result = lcm(times);

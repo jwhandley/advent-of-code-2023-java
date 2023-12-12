@@ -5,8 +5,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Day4 {
+    static List<String> lines;
     public static void part1() throws IOException {
-        List<String> lines = Files.readAllLines(Path.of("Inputs/Day4/input.txt"));
+        lines = Files.readAllLines(Path.of("Inputs/Day4/input.txt"));
         int result = 0;
         for (String line: lines) {
             String[] game = line.split(": ")[1].split(" \\| ");
@@ -36,7 +37,6 @@ public class Day4 {
     }
 
     public static void part2() throws IOException {
-        List<String> lines = Files.readAllLines(Path.of("Inputs/Day4/input.txt"));
         HashMap<Integer, Integer> copyCount = new HashMap<>();
         int i = 0;
         for (String line: lines) {

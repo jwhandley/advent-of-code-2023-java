@@ -9,9 +9,10 @@ import java.util.List;
 public class Day12 {
 
     static HashMap<Long, Long> cache;
+    static List<String> lines;
 
     public static void part1() throws IOException {
-        List<String> lines = Files.readAllLines(Path.of("Inputs/Day12/input.txt"));
+        lines = Files.readAllLines(Path.of("Inputs/Day12/input.txt"));
         cache = new HashMap<>();
         long total = 0;
         for (String input : lines) {
@@ -24,8 +25,6 @@ public class Day12 {
     }
 
     public static void part2() throws IOException {
-        List<String> lines = Files.readAllLines(Path.of("Inputs/Day12/input.txt"));
-        cache.clear();
         long total = 0;
         for (String input : lines) {
             String fold = input.split(" ")[0];

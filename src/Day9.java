@@ -6,8 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Day9 {
+
+    static List<String> input;
     public static void part1() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day9/input.txt"));
+        input = Files.readAllLines(Path.of("Inputs/Day9/input.txt"));
         int result = 0;
         for (String line : input) {
             List<Integer> nums = Arrays.stream(line.split(" ")).map(Integer::parseInt).toList();
@@ -41,7 +43,6 @@ public class Day9 {
     }
 
     public static void part2() throws IOException {
-        List<String> input = Files.readAllLines(Path.of("Inputs/Day9/input.txt"));
         int result = 0;
         for (String line : input) {
             List<Integer> nums = Arrays.stream(line.split(" ")).map(Integer::parseInt).toList();

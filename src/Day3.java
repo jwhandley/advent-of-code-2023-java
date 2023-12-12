@@ -4,15 +4,16 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Day3 {
+    static char[][] grid;
     public static void part1() throws IOException {
-        char[][] charGrid = buildGrid(Path.of("Inputs/Day3/input.txt"));
+        grid = buildGrid(Path.of("Inputs/Day3/input.txt"));
 
         StringBuilder numberBuffer = new StringBuilder();
         boolean nearSpecial = false;
         int result = 0;
-        for (int i = 0; i < charGrid.length; i++) {
-            for (int j = 0; j < charGrid[0].length; j++) {
-                char value = charGrid[i][j];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                char value = grid[i][j];
                 if (Character.isDigit(value)) {
                     numberBuffer.append(value);
 
@@ -23,15 +24,15 @@ public class Day3 {
                                 continue;
                             }
 
-                            if (i + k < 0 || i + k >= charGrid.length) {
+                            if (i + k < 0 || i + k >= grid.length) {
                                 continue;
                             }
 
-                            if (j + l < 0 || j + l >= charGrid[0].length) {
+                            if (j + l < 0 || j + l >= grid[0].length) {
                                 continue;
                             }
 
-                            char adjacentValue = charGrid[i+k][j+l];
+                            char adjacentValue = grid[i+k][j+l];
 
                             if (!Character.isDigit(adjacentValue) && adjacentValue != '.') {
                                 nearSpecial = true;
@@ -72,9 +73,6 @@ public class Day3 {
     }
 
     public static void part2() throws IOException {
-        var grid = buildGrid(Path.of("Inputs/Day3/input.txt"));
-
-
         StringBuilder numberBuffer = new StringBuilder();
 
         HashSet<Integer> nearbyIndices = new HashSet<>();
