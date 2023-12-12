@@ -5,81 +5,43 @@ import java.util.List;
 import java.util.*;
 
 public class Day10 {
-    static List<String> lines;
+    static char[][] grid;
     static int gridSize;
     static List<Point> visited;
     static Point startLocation;
 
     public static void part1() throws IOException {
-        lines = Files.readAllLines(Path.of("Inputs/Day10/input.txt"));
+        List<String> lines = Files.readAllLines(Path.of("Inputs/Day10/input.txt"));
         gridSize = lines.size();
-        startLocation = findStart();
+        grid = new char[gridSize][gridSize];
+        startLocation = findStartAndPopulateGrid(lines);
         visited = new ArrayList<>();
         bfs(startLocation, visited);
         System.out.println(STR."Result for part 1: \{visited.size() / 2}");
     }
 
-    private static Point findStart() throws Error {
-        for (int i = 0; i < gridSize; i++) {
+    private static Point findStartAndPopulateGrid(List<String> lines) throws Error {
+        Point p = null;
+        for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            for (int j = 0; j < gridSize; j++) {
-                if (line.charAt(j) == 'S') return new Point(j, i);
+            for (int j = 0; j < line.length(); j++) {
+                grid[j][i] = line.charAt(j);
+                if (line.charAt(j) == 'S') p = new Point(j, i);
             }
         }
-
-
-        throw new Error("Failed to find start position");
+        return p;
     }
 
     public static void part2() {
-        int insidePoints = 0;
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            boolean within = false;
-            Boolean up = null;
-            for (int j = 0; j < line.length(); j++) {
-                char c = getChar(i, j, line, visited);
-
-                if (c == '|') {
-                    within = !within;
-                } else if ((c == 'L' || c == 'F')) {
-                    up = (c == 'L');
-                } else if (c == '7' || c == 'J') {
-                    char compare = Boolean.TRUE.equals(up) ? 'J' : '7';
-                    if (c != compare) within = !within;
-                    up = null;
-                }
-                if (within && c == '.') insidePoints++;
-            }
+        int A = 0;
+        for (int i = 0; i < visited.size(); i++) {
+            Point p1 = visited.get(i);
+            Point p2 = visited.get((i+1) % visited.size());
+            A += (p1.y + p2.y) * (p2.x - p1.x) / 2;
         }
-        System.out.println(STR."Result for part 2: \{insidePoints}");
-    }
 
-    private static char getChar(int i, int j, String line, List<Point> visited) {
-        if (!visited.contains(new Point(j, i))) return '.';
-        if (line.charAt(j) == 'S') return convertS(i, j, line);
-        return line.charAt(j);
-    }
-
-    private static char convertS(int i,int j, String line) {
-        char below = lines.get(i+1).charAt(j);
-        char above = lines.get(i-1).charAt(j);
-        char left = line.charAt(j-1);
-        char right = line.charAt(j+1);
-
-        var takesBelow = Set.of('7','F','|');
-        var takesAbove = Set.of('J','L','|');
-        var takesLeft = Set.of('7','J','-');
-        var takesRight = Set.of('L','F','-');
-
-        if (takesBelow.contains(above) && takesAbove.contains(below)) return '|';
-        if (takesLeft.contains(right) && takesRight.contains(left)) return '-';
-        if (takesBelow.contains(above) && takesLeft.contains(right)) return  'L';
-        if (takesBelow.contains(above) && takesRight.contains(left)) return 'J';
-        if (takesAbove.contains(below) && takesLeft.contains(right)) return 'F';
-        if (takesAbove.contains(below) && takesRight.contains(left)) return '7';
-
-        throw new Error("Unable to identify correct value for S");
+        int inside = (A - visited.size()/2);
+        System.out.println(STR."Result for part 2: \{inside}");
     }
 
     private static void bfs(Point origin, List<Point> visited) {
@@ -99,7 +61,7 @@ public class Day10 {
             if (!visited.contains(p)) {
                 if (p.y < 0 || p.y > gridSize || p.x < 0 || p.x > gridSize) continue;
                 visited.add(p);
-                char charAtPos = lines.get(p.y).charAt(p.x);
+                char charAtPos = grid[p.x][p.y];
 
                 if (charAtPos == '.') {
                     visited.remove(p);
