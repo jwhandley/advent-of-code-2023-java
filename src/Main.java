@@ -41,6 +41,12 @@ public class Main {
         System.out.println("Day 12 solutions");
         Day12.part1();
         Day12.part2();
+        System.out.println("Day 13 solutions");
+        Day13.part1();
+        Day13.part2();
+        System.out.println("Day 14 solutions");
+        Day14.part1();
+        Day14.part2();
         System.out.println(STR. "Finished in \{ System.currentTimeMillis() - startTime }ms" );
     }
 }

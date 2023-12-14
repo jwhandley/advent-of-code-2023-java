@@ -31,7 +31,7 @@ public class Day11 {
 
         long totalDist = getTotalDist(galaxies, rowMap, colMap);
 
-        System.out.println(STR."Result for part 2: \{totalDist}");
+        System.out.println(STR."Result for part 1: \{totalDist}");
     }
 
     public static void part2() {
@@ -56,7 +56,7 @@ public class Day11 {
 
         long totalDist = getTotalDist(galaxies, rowMap, colMap);
 
-        System.out.println(STR."Result for part 1: \{totalDist}");
+        System.out.println(STR."Result for part 2: \{totalDist}");
     }
 
     private static long getTotalDist(List<Point> galaxies, int[] rowMap, int[] colMap) {
