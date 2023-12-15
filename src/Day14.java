@@ -18,14 +18,7 @@ public class Day14 {
 
         tiltUp(grid);
 
-        int result = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
-                if (grid[i][j] == 'O') {
-                    result += grid.length - i;
-                }
-            }
-        }
+        int result = countWeight(grid);
 
         System.out.println(STR."Result for part 1: \{result}");
     }
@@ -55,6 +48,13 @@ public class Day14 {
             seen.put(hash, cycles);
         }
 
+        int result = countWeight(grid);
+
+        System.out.println(STR."Result for part 2: \{result}");
+
+    }
+
+    private static int countWeight(char[][] grid) {
         int result = 0;
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid.length; j++) {
@@ -64,8 +64,7 @@ public class Day14 {
             }
         }
 
-        System.out.println(STR."Result for part 2: \{result}");
-
+        return result;
     }
 
     private static void cycle(char[][] grid) {
