@@ -51,7 +51,6 @@ public class Day15 {
             for (int i = 0; i < values.size(); i++) {
                 int entryNumber = i + 1;
                 int focalLength = values.get(i);
-                //System.out.println(STR."Box number: \{pos}, Slot: \{entryNumber}, Length: \{focalLength}, Result: \{pos*entryNumber*focalLength}");
                 result += pos * entryNumber * focalLength;
             }
         }
