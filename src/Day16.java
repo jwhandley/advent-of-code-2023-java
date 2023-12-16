@@ -93,7 +93,7 @@ public class Day16 {
                 }
             }
             point.update();
-            if (!split && point.x >= 0 && point.x < grid.length && point.y >= 0 && point.y < grid[0].length) {
+            if (!split && point.x >= 0 && point.x < grid[0].length && point.y >= 0 && point.y < grid.length) {
                 points.add(point);
             }
         }
