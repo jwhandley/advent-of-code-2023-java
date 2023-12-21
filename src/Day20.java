@@ -32,8 +32,6 @@ public class Day20 {
             foundLoop = modules.values().stream().allMatch(m -> m.getClass() != FlipFlop.class || m.activation == 0);
         }
 
-        System.out.println(STR."There were \{highTotal} high pulses and \{lowTotal} low pulses after \{buttonPresses} button presses");
-        System.out.println(STR."After 1000 button presses, there would be \{highTotal * 1000/buttonPresses} high pulses and \{lowTotal * 1000/buttonPresses} low pulses");
         long result = highTotal * 1000L / buttonPresses * lowTotal * 1000L / buttonPresses;
         System.out.println(STR."Result for part 1: \{result}");
     }
